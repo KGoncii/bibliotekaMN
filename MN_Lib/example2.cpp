@@ -5,6 +5,24 @@
 
 using namespace DifferentialEquations;
 
+/**
+ * Porównanie metody Heuna z rozwi¹zaniem analitycznym dla równania ró¿niczkowego.
+ *
+ * Program oblicza i wyœwietla wartoœci funkcji w dyskretnych krokach czasowych,
+ * korzystaj¹c zarówno z metody Heuna, jak i rozwi¹zania analitycznego.
+ * Wyniki prezentowane s¹ w formie tabeli zawieraj¹cej:
+ *  - czas (t),
+ *  - wartoœæ obliczon¹ metod¹ Heuna,
+ *  - wartoœæ rozwi¹zania analitycznego,
+ *  - bezwzglêdn¹ ró¿nicê miêdzy tymi wartoœciami.
+ *
+ * Zmienne:
+ *  - T0: wartoœæ pocz¹tkowa,
+ *  - dt: krok czasowy dla metody Heuna,
+ *  - t_max: maksymalny czas obliczeñ.
+ *
+ */
+
 int main2() {
     double T0 = 970.0;
     double dt = 0.2;

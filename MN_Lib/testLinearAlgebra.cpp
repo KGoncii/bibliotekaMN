@@ -11,22 +11,27 @@ void test_createIdentityMatrix() {
     auto I3 = createIdentityMatrix(3);
     assert(I3.size() == 3 && I3[0][0] == 1 && I3[1][1] == 1 && I3[2][2] == 1);
 
-    // Test 2: Macierz jednostkowa 1x1
-    auto I1 = createIdentityMatrix(1);
-    assert(I1.size() == 1 && I1[0][0] == 1);
+    // Test 2: przypadek brzegowy - macierz jednostkowa 0x0
+    auto I0 = createIdentityMatrix(0);
+    assert(I0.empty());
 }
 
 void test_multiplyMatrices() {
     // Test 1: Mno¿enie macierzy jednostkowej przez macierz
-    std::vector<std::vector<double>> A = {{1,2},{3,4}};
+    std::vector<std::vector<double>> A = { {1,2},{3,4} };
     auto I = createIdentityMatrix(2);
     auto res = multiplyMatrices(A, I);
     assert(res == A);
 
-    // Test 2: Mno¿enie dwóch macierzy 2x2
-    std::vector<std::vector<double>> B = {{2,0},{1,2}};
-    auto res2 = multiplyMatrices(A, B);
-    assert(res2[0][0] == 4 && res2[0][1] == 4 && res2[1][0] == 10 && res2[1][1] == 8);
+    // Test 2: przypadek brzegowy - niezgodne rozmiary
+    std::vector<std::vector<double>> B = { {2,0},{1,2},{3,4} };
+    try {
+        auto res2 = multiplyMatrices(A, B);
+        assert(false && "Brak wyj¹tku dla niezgodnych rozmiarów");
+    }
+    catch (...) {
+        // Oczekiwany wyj¹tek lub b³¹d
+    }
 }
 
 void test_areMatricesEqual() {

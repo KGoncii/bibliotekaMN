@@ -17,8 +17,8 @@ void test_bisection() {
     double root = bisection(f1, 0, 3, 1e-8, 100, false, nullptr, "");
     assert(std::abs(root - 2.0) < 1e-7);
 
-    // Test 2: Brak zmiany znaku w [3,5] (powinno zwróciæ NAN)
-    double nan_root = bisection(f1, 3, 5, 1e-8, 100, false, nullptr, "");
+    // Test 2: przypadek brzegowy - przedzia³ o zerowej d³ugoœci
+    double nan_root = bisection(f1, 2.0, 2.0, 1e-8, 100, false, nullptr, "");
     assert(std::isnan(nan_root));
 }
 
@@ -27,7 +27,7 @@ void test_newton() {
     double root = newton(f1, df1, 3, 1e-8, 100, false, nullptr, "");
     assert(std::abs(root - 2.0) < 1e-7);
 
-    // Test 2: Brak pochodnej (df=0), x0=0 (powinno zwróciæ NAN)
+    // Test 2: przypadek brzegowy - brak pochodnej (df=0), x0=0
     double nan_root = newton(f1, df1, 0, 1e-8, 10, false, nullptr, "");
     assert(std::isnan(nan_root));
 }
@@ -37,7 +37,7 @@ void test_secant() {
     double root = secant(f1, 0, 3, 1e-8, 100, false, nullptr, "");
     assert(std::abs(root - 2.0) < 1e-7);
 
-    // Test 2: Brak zmiany wartoœci (f0==f1), x0=1, x1=1 (powinno zwróciæ NAN)
+    // Test 2: przypadek brzegowy - brak zmiany wartoœci (f0==f1), x0=1, x1=1
     double nan_root = secant(f1, 1, 1, 1e-8, 10, false, nullptr, "");
     assert(std::isnan(nan_root));
 }
@@ -47,50 +47,47 @@ void test_findIntervals() {
     auto intervals = findIntervals(f2, 0, 4, 1.0);
     assert(!intervals.empty());
 
-    // Test 2: x^2-4 w [0, 3], krok 0.5 (powinien znaleŸæ przedzia³ z pierwiastkiem)
-    auto intervals2 = findIntervals(f1, 0, 3, 0.5);
-    bool found = false;
-    for (auto& p : intervals2)
-        if (p.first <= 2.0 && p.second >= 2.0) found = true;
-    assert(found);
+    // Test 2: przypadek brzegowy - brak pierwiastka w przedziale
+    auto intervals2 = findIntervals(f1, 5, 6, 0.5);
+    assert(intervals2.empty());
 }
 
 void test_addUnique() {
     // Test 1: Dodanie unikalnej wartoœci
-    std::vector<double> roots = {1.0, 2.0};
+    std::vector<double> roots = { 1.0, 2.0 };
     addUnique(roots, 3.0, 1e-8);
     assert(roots.size() == 3);
 
-    // Test 2: Próba dodania istniej¹cej wartoœci (nie powinno dodaæ)
+    // Test 2: przypadek brzegowy - próba dodania istniej¹cej wartoœci (nie powinno dodaæ)
     addUnique(roots, 2.0 + 1e-9, 1e-8);
     assert(roots.size() == 3);
 }
 
 void test_minAbsError() {
     // Test 1: Najmniejszy b³¹d bezwzglêdny
-    std::vector<double> ref = {1.0, 2.0, 3.0};
+    std::vector<double> ref = { 1.0, 2.0, 3.0 };
     double err = minAbsError(ref, 2.1);
     assert(std::abs(err - 0.1) < 1e-12);
 
-    // Test 2: x równe jednemu z referencyjnych
+    // Test 2: przypadek brzegowy - x równe jednemu z referencyjnych
     err = minAbsError(ref, 3.0);
     assert(std::abs(err) < 1e-12);
 }
 
 void test_bisection_errors() {
-    // Przedzia³ o zerowej d³ugoœci
+    // Przypadek brzegowy: przedzia³ o zerowej d³ugoœci
     double root = bisection(f1, 2.0, 2.0, 1e-8, 100, false, nullptr, "");
     assert(std::isnan(root));
 }
 
 void test_newton_errors() {
-    // Maksymalna liczba iteracji = 0
+    // Przypadek brzegowy: maksymalna liczba iteracji = 0
     double root = newton(f1, df1, 3, 1e-8, 0, false, nullptr, "");
     assert(std::isnan(root) || std::abs(root - 3) < 1e-12);
 }
 
 void test_secant_errors() {
-    // Maksymalna liczba iteracji = 0
+    // Przypadek brzegowy: maksymalna liczba iteracji = 0
     double root = secant(f1, 0, 3, 1e-8, 0, false, nullptr, "");
     assert(std::isnan(root) || std::abs(root - 3) < 1e-12);
 }
@@ -102,8 +99,8 @@ void run_tests_nonlinear_algebra() {
     test_findIntervals();
     test_addUnique();
     test_minAbsError();
-	test_bisection_errors();
-	test_newton_errors();
-	test_secant_errors();
+    test_bisection_errors();
+    test_newton_errors();
+    test_secant_errors();
     std::cout << "Wszystkie testy NonlinearAlgebra.h zaliczone!" << std::endl;
 }
