@@ -24,6 +24,8 @@ numerical_lib/
 ├── CMakeLists.txt # Plik budujący projekt  
 └── README.md # Dokumentacja projektu  
 
+![Opis alternatywny](image.png)
+
 ## Kompilacja
 
 1.	Otwórz rozwiązanie w Visual Studio 2022
