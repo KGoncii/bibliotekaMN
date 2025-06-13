@@ -21,7 +21,6 @@ numerical_lib/
 ├── src/ # Pliki źródłowe (.c / *.cpp)  
 ├── tests/ # Testy jednostkowe  
 ├── examples/ # Przykłady użycia  
-├── CMakeLists.txt # Plik budujący projekt  
 └── README.md # Dokumentacja projektu  
 
 ![Opis alternatywny](image.png)
